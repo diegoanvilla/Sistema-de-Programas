@@ -1,0 +1,56 @@
+<div class="col-md-6 mb-5">
+  <div class="card h-100 input-box ml-auto mr-auto card-upgrade p-5">
+    <form id="rent">
+      <div class="form-group text-center">
+        <h4>Añadir USD a la renta</h4>
+        <input
+          type="number"
+          id="rent"
+          name="rent"
+          class="form-control"
+          placeholder="Renta"
+          value=""
+        />
+        <small class="red rent-error"></small>
+        <button
+          type="submit"
+          class="btn btn-default btn-block animation-on-hover"
+        >
+          Añadir
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  $(document).on("submit", "form#rent", function (e) {
+    e.preventDefault();
+    let randomString = _.times(16, () =>
+      ((Math.random() * 0xf) << 0).toString(24)
+    ).join("");
+    $("html").append("<div class='overlay'></div>");
+    const data = $("#rent").serialize();
+    $.ajax({
+      url: "/confirmRentInput",
+      type: "POST",
+      data: data,
+    })
+      .done((res) => {
+        $(".overlay").hide();
+        $("html").append(res);
+        $(".popup-overlay").click((e) => {
+          $(".popup-overlay").hide();
+        });
+        $(".popup").click((e) => {
+          e.stopPropagation();
+        });
+        // alert("Transaccion Realizada");
+        // $(".rent-error").html(``);
+        // location.reload();
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        $(".rent-error").html(`${err.responseText}`);
+      });
+  });
+</script>

@@ -1,0 +1,195 @@
+const express = require("express");
+const router = express.Router();
+const Plan = require("../models/Plans");
+const User = require("../models/User");
+const { ensureAuthenticated } = require("../config/auth");
+const Telegraf = require("telegraf");
+const mongoose = require("mongoose");
+const https = require("https");
+
+//BOT DE TELEGRAM CAMBIAR LUEGO A SU PROPIO ARCHIVO
+const bot = new Telegraf.Telegraf(process.env.BOT);
+const Markup = Telegraf.Markup;
+bot.command("start", (ctx) => {
+  console.log(ctx.from);
+  bot.telegram.sendMessage(
+    ctx.chat.id,
+    "hello there! Welcome to my new telegram bot.",
+    {}
+  );
+});
+bot.action(/aprobar (.+)/, async (ctx) => {
+  const info = ctx.match[1].split(" ");
+  try {
+    await User.updateOne(
+      { _id: new mongoose.Types.ObjectId(info[0]) },
+      {
+        $set: {
+          "transacciones.$[elemX].status": "Confirmado",
+          "transacciones.$[elemX].description": "Abonado",
+        },
+        $inc: { invertido: info[2], balance: info[2] },
+      },
+      {
+        arrayFilters: [
+          {
+            "elemX._id": new mongoose.Types.ObjectId(info[1]),
+            "elemX.status": "Procesando",
+          },
+        ],
+      }
+    ).then(() => {
+      bot.telegram.sendMessage(process.env.TELEGRAM_ID, "Aprobado");
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+bot.launch();
+
+//Empezamos
+
+router.get("/getTransacionInfo/:id", async (req, res) => {
+  try {
+    Plan.findOne({ plan: req.params.id }).then((doc) => {
+      const { balance } = req.user;
+      res.render("popup.ejs", {
+        plan: doc,
+        balance: balance,
+      });
+    });
+  } catch (err) {
+    alert("Algo Salio Mal");
+  }
+});
+
+router.post("/addFund", ensureAuthenticated, async (req, res, next) => {
+  const { fund } = req.body;
+  if (!fund) {
+    res.status(400).send("El numero debe ser mayor a 0");
+  } else {
+    res.render("pagoMovil.ejs", {
+      fund: fund,
+    });
+  }
+});
+
+router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
+  const { ref, amount } = req.body;
+  if (!match(req.user.transacciones, ref).length) {
+    const transaction = {
+      type: "Pago Movil",
+      status: "Procesando",
+      ammount: amount,
+      user: req.user.name,
+      ref: ref,
+      fund: amount,
+      description: `Verificando referencia ${ref}`,
+    };
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $push: { transacciones: transaction },
+      },
+      { returnOriginal: false }
+    )
+      .then((user) => {
+        console.log(user);
+        const mensaje = `El usuario \n${req.user.name} \nCorreo ${
+          req.user.email
+        } \nHa realizado un pago movil de ${
+          amount * 5
+        } Bs con un numero de referencia ${ref}`;
+        let clientButton = [
+          Markup.button.callback(
+            "Aprobar",
+            `aprobar ${req.user._id} ${
+              match(user.transacciones, ref)[0]._id
+            } ${amount}`
+          ),
+        ];
+        bot.telegram.sendMessage(
+          process.env.TELEGRAM_ID,
+          mensaje,
+          Markup.inlineKeyboard([clientButton])
+        );
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log(err);
+        res
+          .status(500)
+          .send(
+            "Un error ha ocurrido mientras se guardaban los datos de la transaccion."
+          );
+      });
+  }
+  res.status(400).end("Referencia Ya Registrada");
+});
+
+router.post("/processPayment", ensureAuthenticated, async (req, res) => {
+  const { fund } = req.body;
+  const ref = 1;
+  if (ref) {
+    const transaction = {
+      type: "Pago Movil",
+      user: req.user.name,
+      ref: ref,
+      fund: fund,
+      description: `Se añadio ${fund}$ a tus fondos`,
+    };
+    await User.updateOne(
+      { _id: req.user._id },
+      {
+        $inc: { balance: fund, invertido: fund },
+        $push: { transacciones: transaction },
+      },
+      { useUnifiedTopology: true }
+    )
+      .then(() => {
+        console.log("Transaccion Finalizada");
+        res.status(200).send();
+      })
+      .catch((err) => {
+        console.log(err);
+        res
+          .status(500)
+          .send(
+            "Un error ha ocurrido mientras se guardaban los datos de la transaccion, comuniquese con soporte"
+          );
+      });
+  }
+});
+
+router.post("/subscribetoplan/", ensureAuthenticated, async (req, res) => {
+  const { balance, _id } = req.user;
+  const plan = req.body.data;
+  Plan.findOne({ plan: plan }).then((doc) => {
+    if (req.user.plan.number == plan) {
+      res.status(500).send("No puedes escoger el mismo plan");
+    } else {
+      User.findOneAndUpdate(
+        { _id: _id },
+        {
+          $set: {
+            plan: { name: doc.name, number: doc.plan },
+          },
+        }
+      )
+        .then(() => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send("Algo salio mal intente nuevamente");
+        });
+    }
+  });
+});
+
+const match = (array, ref) =>
+  array.filter((v) => {
+    return v.ref == ref;
+  });
+
+module.exports = router;

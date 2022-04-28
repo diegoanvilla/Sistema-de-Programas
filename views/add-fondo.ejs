@@ -1,0 +1,24 @@
+<div class="popup-overlay container-fluid">
+  <div class="popup row">
+    <div class="col-12 text-center">
+      <h1><b>Añade a tu fondo de inversiones!</b></h1>
+      <h2>
+        <b>Precio: <%=precio.toLocaleString('es', {useGrouping:true})%> USD</b>
+      </h2>
+      <div class="row w-100 m-0">
+        <div class="col-md-6 mx-auto text-center">
+          <p class="">Tu Balance:</p>
+          <h3>
+            <b><%= balance.toLocaleString('es', {useGrouping:true})%> USD</b>
+          </h3>
+        </div>
+      </div>
+      <a
+        href="javascript:subscribeToPlan(<%=plan.plan%>)"
+        class="btn btn-default btn-block animation-on-hover"
+      >
+        Subscribe
+      </a>
+    </div>
+  </div>
+</div>

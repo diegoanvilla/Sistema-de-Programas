@@ -1,0 +1,108 @@
+<input type="hidden" id="amount" value="<%= fund.toLocaleString('es', {useGrouping:true}) %>" />
+<div class="popup-overlay container-fluid">
+  <div class="popup row">
+    <div class="col-12 text-center plan-box">
+      <div class="row w-100 m-0">
+        <div class="col-md-12 mx-auto text-center">
+          <p class="my-2">Añadir:</p>
+          <h1 class="mb-0">
+            <b><%= fund.toLocaleString('es', {useGrouping:true})%> USD</b>
+          </h1>
+          <p class="w-100 my-2">Debes Transferir Via Pago Movil</p>
+          <h1 class="mb-0">
+            <b><%= fund.toLocaleString('es', {useGrouping:true})*5%> Bs</b>
+          </h1>
+          <p class="my-2">A la siguiente cuenta bancaria:</p>
+          <div class="movimientos-container mt-3">
+            <div
+              class="movimientos d-flex flex-column w-100 p-1 align-items-center justify-content-between"
+            >
+              <div
+                class="d-flex align-items-center justify-content-between w-100"
+              >
+                <p class="m-0">Banco</p>
+                <p class="m-0">Banco Nacional de Ejemplo</p>
+              </div>
+            </div>
+            <div
+              class="movimientos d-flex flex-column w-100 p-1 align-items-center justify-content-between"
+            >
+              <div
+                class="d-flex align-items-center justify-content-between w-100"
+              >
+                <p class="m-0">Telefono</p>
+                <p class="m-0">0424-5555555</p>
+              </div>
+            </div>
+          </div>
+          <div
+              class="movimientos d-flex flex-column w-100 p-1 align-items-center justify-content-between"
+            >
+              <div
+                class="d-flex align-items-center justify-content-between w-100"
+              >
+                <p class="m-0">Cedula</p>
+                <p class="m-0">10.000.000</p>
+              </div>
+            </div>
+            <div
+              class="movimientos d-flex flex-column w-100 p-1 align-items-center justify-content-between"
+            >
+              <div
+                class="d-flex align-items-center justify-content-between w-100"
+              >
+                <p class="m-0">Nombre</p>
+                <p class="m-0">Juan</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <form id="ref" class="mt-2">
+          <div class="form-group  text-center">
+            <h4>Por favor coloca el numero de referencia del pago acá</h4>
+            <input
+              type="number"
+              id="ref"
+              name="ref"
+              class="form-control w-100"
+              placeholder="Referencia Pago Movil"
+              value=""
+            />
+            <small class="red ref-error"></small>
+            <button
+              type="submit"
+              class="btn btn-default w-100 btn-block animation-on-hover"
+            >
+              Añadir
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".popup").click((e) => e.stopPropagation());
+  $(document).on("submit", "form#ref", function (e) {
+    e.preventDefault();
+    $("html").append("<div class='overlay'></div>");
+    const data = $("#ref").serialize();
+    var amount = document.getElementById("amount").value;
+
+    console.log(data);
+    $.ajax({
+      url: "/confirmPayment",
+      type: "POST",
+      data: data + '&amount=' + amount ,
+    })
+      .done((res) => {
+        $(".overlay").remove();
+        alert('Tu pago esta siendo procesado, en la ventana de movimientos te mantendremos al tanto')
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        $(".ref-error").html(`${err.responseText}`);
+      });
+  });
+</script>

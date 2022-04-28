@@ -1,0 +1,53 @@
+<div class="popup-overlay container-fluid">
+  <div class="popup row">
+    <div class="col-12 text-center">
+      <h1><b>Confirmar Transaccion</b></h1>
+      <% if(plan.name){%>
+      <h3>
+        <b>Añadir: <%=rent.toLocaleString('es', {useGrouping:true})%> USD</b>
+      </h3>
+      <p class="mb-5">Tu Plan Actual: <%= plan.name%> Plan</p>
+      <p>
+        Porcentaje a restar de tu balance por el plan:
+        <%=(plan.precio*100).toFixed(1)%>%
+      </p>
+      <p class="mb-5">
+        Total del porcentaje a restar: <%=precio.toLocaleString('es',
+        {useGrouping:true})%> USD
+      </p>
+      <% }%>
+      <small
+        >Si no tienes suficiente en tu balance el Porcentaje del plan se te
+        cobrara de la renta a ingresar</small
+      >
+      <a
+        href="javascript:addRent(<%=rent%>)"
+        class="btn btn-default btn-block animation-on-hover"
+      >
+        Subscribe
+      </a>
+      <small class="red rent-popup-error"></small>
+    </div>
+  </div>
+</div>
+<script>
+  function addRent(renta) {
+    $("html").append('<div class="overlay"></div>');
+    $.ajax({
+      url: "/addRent",
+      type: "POST",
+      data: { rent: renta },
+    })
+      .done((doc) => {
+        console.log(doc);
+        $(".overlay").hide();
+        alert("Renta añadida correctamente");
+        window.location.reload();
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        $("small.rent-popup-error").html(err.responseText);
+        // alert(err.responseText);
+      });
+  }
+</script>

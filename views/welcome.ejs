@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    Forum
+  </title>
+  <link href="/img/img.png" rel="icon" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/css/forum.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />  <link href="/particles/css/particles.css" rel="stylesheet" />
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <script src="/core/jquery.min.js"></script>
+  
+  <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+<body scroll="no" style="overflow: hidden" class="">
+
+  <div id="preloader">
+    <div id="status"></div>
+  </div>
+  <script>
+    $(window).on('load', function () {
+      $('#status').fadeOut();
+      $('#preloader').delay(350).fadeOut('slow');
+      $('body').delay(350).css({ 'overflow': 'visible' });
+    })
+  </script>
+
+  <div class="wrapper">
+    <div class="sidebar">
+      <div class="sidebar-wrapper fade-custom">
+        <div class="logo">
+          <a href="./dashboard" class="simple-text logo-mini">
+            I
+          </a>
+          <a href="./dashboard" class="simple-text logo-normal">
+           LoremIpsum
+          </a>
+        </div>
+        <%-include("nav.ejs")%>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle d-inline">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+              
+            <a class="navbar-brand d-flex justify-content-center align-items-center gap"  href="/"><span class="material-symbols-sharp">
+            account_balance
+            </span>
+            Bienvenido</a>
+          </div>
+          <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav ml-auto">
+              <li class="search-bar input-group">
+              </li>
+              <li class="dropdown nav-item">
+
+              </li>
+              <li class="separator d-lg-none"></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="jumbotron row">
+        <div id="particles-js"></div>
+      <div class="count-particles">
+        <span class="js-count-particles"></span> particles
+      </div>
+        <div class="jumbotron-content offset-md-2 col-md-10">
+          <h1 class="fade-custom"><b>Sistema de Programas</b></h1>
+          <h4 class="fade-custom">Lorem ipsum dolor sit amet consectetur adipisicing elit</h4>
+          <a class="jumbotron-button fade-custom" href="#ingreso">Unete!</a>
+        </div>
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-8 ml-auto mr-auto">
+            <div class="my-5">
+              <h1 class="fade-custom" id="nosotros">Nosotros</h1>
+              <p class="fade-custom">
+                Proyecto de la Universidad Jose Antonio Paez cuya funcion es la ejemplificacion de un sistema de inversiones simplificada para al usuario usando varios diferentes sistemas para su funcionamiento.
+              </p>
+            </div>
+            <div class="row mb-5">
+              <div class="col-md-6 h-100">
+                <div class="card fade-custom h-100 card-upgrade logros card-header">
+                  <h1>Objetivo</h1>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore odio repellat itaque dicta voluptatibus! Veritatis velit nesciunt libero temporibus beatae eaque culpa maiores molestiae. Non pariatur animi voluptatem placeat laborum.</p>
+                </div>
+              </div>
+              <div class="col-md-6 h-100">
+                <div class="card fade-custom h-100 card-upgrade logros card-header">
+                  <h1>¿Cómo funciona?</h1>
+                  <p>Ingresa o Registrate y empieza abonando liquidez a tu fondo para luego escoger un plan de inversion y a medida que el tiempo va pasando y dependiendo del comportamiento del mercado de las comodidades utilizadas para representar cada plan observa tu balance cambiar</p>
+                </div>
+              </div>
+              <div class="col-md-6 h-100">
+                <div class="card h-100 fade-custom card-upgrade logros card-header">
+                  <h1>Lorem Ipsum</h1>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime illo est, vitae deserunt autem vero omnis a atque cumque, accusantium dolore expedita amet voluptatem. Aliquid placeat dignissimos animi quia sed.</p>
+                </div>
+              </div>
+              <div class="col-md-6 h-100">
+                <div class="card h-100 fade-custom card-upgrade logros card-header">
+                  <h1>Lorem Ipsum</h1>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quidem consequuntur pariatur officia similique,  reiciendis eius ipsam non nostrum eos, recusandae, blanditiis minima veniam rem.</p>
+                </div>
+              </div>
+            </div>
+
+            <h1 id="plans">Nuestros planes de inversion</h1>
+            <%- include("plans.ejs")%>
+            <h1 class="my-5" id="ingreso">Registrate y adentrate en el mundo NFT</h1>
+            <div class="card fade-custom card-upgrade">
+              <div class="card-header text-center">
+                <div class="card-header mb-5">
+                  <a href="/login" class="btn btn-default btn-block animation-on-hover"
+                    >Ingreso</a
+                  >
+                  <a href="/register" class="btn btn-default btn-block animation-on-hover"
+                    >Registro</a
+                  >
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script>  Universidad Jose Antonio Paéz  </i>
+             
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+    </div>
+  </div>
+  <script src="/core/jquery.min.js"></script>
+  <script src="/core/popper.min.js"></script>
+  <script src="/core/bootstrap.min.js"></script>
+  <script src="/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script src="/plugins/chartjs.min.js"></script>
+  <script src="/plugins/bootstrap-notify.js"></script>
+  <script src="/js/black-dashboard.min.js?v=1.0.0"></script>
+  <script src="/particles/js/app.js"></script>
+  <script src="/js/plan.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      // $().ready(function () {
+      //   $sidebar = $('.sidebar');
+      //   $navbar = $('.navbar');
+      //   $main_panel = $('.main-panel');
+
+      //   $full_page = $('.full-page');
+
+      //   $sidebar_responsive = $('body > .navbar-collapse');
+      //   sidebar_mini_active = true;
+      //   white_color = false;
+
+      //   window_width = $(window).width();
+
+      //   fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+
+
+      //   $('.fixed-plugin a').click(function (event) {
+      //     if ($(this).hasClass('switch-trigger')) {
+      //       if (event.stopPropagation) {
+      //         event.stopPropagation();
+      //       } else if (window.event) {
+      //         window.event.cancelBubble = true;
+      //       }
+      //     }
+      //   });
+
+      //   $('.fixed-plugin .background-color span').click(function () {
+      //     $(this).siblings().removeClass('active');
+      //     $(this).addClass('active');
+
+      //     var new_color = $(this).data('color');
+
+      //     if ($sidebar.length != 0) {
+      //       $sidebar.attr('data', new_color);
+      //     }
+
+      //     if ($main_panel.length != 0) {
+      //       $main_panel.attr('data', new_color);
+      //     }
+
+      //     if ($full_page.length != 0) {
+      //       $full_page.attr('filter-color', new_color);
+      //     }
+
+      //     if ($sidebar_responsive.length != 0) {
+      //       $sidebar_responsive.attr('data', new_color);
+      //     }
+      //   });
+
+      //   $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+      //     var $btn = $(this);
+
+      //     if (sidebar_mini_active == true) {
+      //       $('body').removeClass('sidebar-mini');
+      //       sidebar_mini_active = false;
+      //       blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+      //     } else {
+      //       $('body').addClass('sidebar-mini');
+      //       sidebar_mini_active = true;
+      //       blackDashboard.showSidebarMessage('Sidebar mini activated...');
+      //     }
+
+      //     // we simulate the window Resize so the charts will get updated in realtime.
+      //     var simulateWindowResize = setInterval(function () {
+      //       window.dispatchEvent(new Event('resize'));
+      //     }, 180);
+
+      //     // we stop the simulation of Window Resize after the animations are completed
+      //     setTimeout(function () {
+      //       clearInterval(simulateWindowResize);
+      //     }, 1000);
+      //   });
+
+      //   $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+      //     var $btn = $(this);
+
+      //     if (white_color == true) {
+
+      //       $('body').addClass('change-background');
+      //       setTimeout(function () {
+      //         $('body').removeClass('change-background');
+      //         $('body').removeClass('white-content');
+      //       }, 900);
+      //       white_color = false;
+      //     } else {
+
+      //       $('body').addClass('change-background');
+      //       setTimeout(function () {
+      //         $('body').removeClass('change-background');
+      //         $('body').addClass('white-content');
+      //       }, 900);
+
+      //       white_color = true;
+      //     }
+
+
+      //   });
+
+      //   $('.light-badge').click(function () {
+      //     $('body').addClass('white-content');
+      //   });
+
+      //   $('.dark-badge').click(function () {
+      //     $('body').removeClass('white-content');
+      //   });
+      // });
+    });
+  </script>
+
+</body>
+<script type="text/javascript" src="/js/fade.js"></script>
+</html>

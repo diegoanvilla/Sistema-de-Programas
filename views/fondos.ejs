@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/img/img.png" rel="icon" type="image/x-icon" />
+  <title>
+    Forum
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link href="/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/css/forum.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />  
+  <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+
+<body class="">
+  
+  <div id="preloader">
+    <div id="status"></div>
+  </div>
+<script>
+  $(window).on('load', function() {
+    $('#status').fadeOut(); 
+    $('#preloader').delay(350).fadeOut('slow'); 
+    $('body').delay(350).css({'overflow':'visible'});
+  })
+</script>
+<span id='variableJSON' hidden>
+    <%= JSON.stringify(user); %>
+  </span>
+  <div class="wrapper">
+    <div class="sidebar">
+    <div class="sidebar-wrapper">
+      <div class="logo">
+        <a href="./dashboard" class="simple-text logo-mini">
+          I
+        </a>
+        <a href="./dashboard" class="simple-text logo-normal">
+          Forum
+        </a>
+      </div>
+      <%-include("nav.ejs")%>
+    </div>
+  </div>
+    <div class="main-panel">
+      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle d-inline">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+              
+            <a class="navbar-brand d-flex justify-content-center align-items-center gap"  href="/"><span class="material-symbols-sharp">
+            account_balance
+            </span>Fondos</a>
+          </div>
+ 
+          <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav ml-auto">
+              <li class="search-bar input-group">
+              </li>
+              <li class="dropdown nav-item">
+ 
+              </li>
+              <li class="dropdown nav-item">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <div class="photo">
+                    <img src="/img/img.png" alt="Profile Photo">
+                  </div>
+                  <b class="caret d-none d-lg-block d-xl-block"></b>
+                  <p class="d-lg-none">
+                    Cerrar Sesión
+                  </p>
+                </a>
+                <ul class="dropdown-menu dropdown-navbar">
+                  <li class="nav-link"><a href="/user" class="nav-item dropdown-item">Perfil</a></li>
+                  <li class="dropdown-divider"></li>
+                  <li class="nav-link"><a href="/logout" class="nav-item dropdown-item">Cerrar Sesión</a></li>
+                </ul>
+              </li>
+              <li class="separator d-lg-none"></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+              <div class="col-md-8 row ml-auto mr-auto">
+                <div class="col-md-6">
+                    <div class="card card-user h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                        <h4 class="m-0">Balance: </h4>
+                        <h3 class="m-0"> <%= user.balance.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-user h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                        <h4 class="m-0">Invertido: </h4>
+                        <h3 class="m-0"><%= user.invertido.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="card card-user h-100 d-flex mt-3 flex-column align-items-center justify-content-center p-3">
+                        <h4 class="m-0">Ganancias Acumuladas: </h4>
+                        <h3 class="m-0"><%= user.ganancia.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
+                  
+              </div>
+                <div class="col-md-12 mt-5 p-0">
+                    <div class="card card-user p-lg-5 p-2 text-center movimientos-container">
+                        <h1>Moviemientos</h1>
+                        <% for(var i=user.transacciones.length-1; i > 0; i--) { %>
+                            <a href="javascript:showDetails(<%=i%>)" class="w-100 movimientos d-flex flex-column p-1 align-items-center justify-content-between">
+                              <div class="d-flex align-items-center justify-content-between w-100">
+                                <p class="m-0"><%= user.transacciones[i].type %></p>
+                                <p class="m-0"><%= user.transacciones[i].ammount %> USD</p>
+                              </div>
+                                <div class="movimientos-more-info my-2 w-100" id="movimientos<%=i%>">
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <p>Fecha:</p>
+                                    <p><%= user.transacciones[i].date %></p>
+                                  </div>
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <p>Descripcion:</p>
+                                    <p><%= user.transacciones[i].description %></p>
+                                  </div>
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <p>User:</p>
+                                    <p><%= user.transacciones[i].user %></p>
+                                  </div>
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <p>Estado:</p>
+                                    <p><%= user.transacciones[i].status %></p>
+                                  </div>
+                                </div>
+                             </a>
+                        <% } %>
+                    </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script>   Universidad Jose Antonio Paéz  </i> 
+             
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="/core/jquery.min.js"></script>
+  <script src="/core/popper.min.js"></script>
+  <script src="/core/bootstrap.min.js"></script>
+  <script src="/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+  <script src="/plugins/chartjs.min.js"></script>
+
+  <script src="/plugins/bootstrap-notify.js"></script>
+  
+  <script src="/js/black-dashboard.min.js?v=1.0.0"></script>
+
+  <script>
+    
+    
+    const showDetails = (id)=>{
+      $(`#movimientos${id}`).toggle()
+    }
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+

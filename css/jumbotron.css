@@ -1,0 +1,68 @@
+.jumbotron {
+  min-height: 70vh;
+  background: linear-gradient(#1f1f2fb1, #1f1f2fb1),
+    url("../img/nft-image-5.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.jumbotron-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.jumbotron > * {
+  color: #d1d2d7 !important;
+}
+.jumbotron h1 {
+  font-size: 5em;
+}
+.jumbotron-button {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  border-style: none;
+  background-color: #1f1f2f !important;
+  margin-top: 20px;
+  transition: all 0.5s;
+}
+.jumbotron-button:hover {
+  cursor: pointer;
+  background: #d1d2d7 !important;
+  color: #1f1f2f !important;
+}
+.fade {
+  opacity: 0;
+}
+.fade-in {
+  animation: fade-in 1s forwards;
+}
+@keyframes fade-in {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+@media (max-width: 768px) {
+  .jumbotron {
+    padding-top: 15vh !important;
+    height: 100vh !important;
+  }
+}
+@media (max-width: 768px) {
+  .fade {
+    opacity: 1;
+  }
+}

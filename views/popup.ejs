@@ -1,0 +1,49 @@
+<div class="popup-overlay container-fluid">
+  <div class="popup row">
+    <div class="col-12 text-center plan-box">
+      <h1><b>Subscribete al plan <%=plan.name%></b></h1>
+      <h3>
+        <b><%= plan.descripcion%></b>
+      </h3>
+      <div class="row w-100 m-0">
+        <div class="col-md-6 mx-auto text-center">
+          <p class="">Tu Balance:</p>
+          <h3>
+            <b><%= balance.toLocaleString('es', {useGrouping:true})%> USD</b>
+          </h3>
+        </div>
+        <small class="text-center mb-1"
+          >Al cambiar de plan, todo tu balance invertido sera automaticamente
+          re-invertido en las comodidades del plan escogido.</small
+        >
+      </div>
+      <a
+        href="javascript:subscribeToPlan(<%=plan.plan%>)"
+        class="btn btn-default btn-block animation-on-hover"
+      >
+        Suscribirse
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+  $(".plan-box").click((e) => e.stopPropagation());
+  function subscribeToPlan(id) {
+    $("html").append('<div class="overlay"></div>');
+    $.ajax({
+      url: "/subscribetoplan",
+      type: "POST",
+      data: { data: id },
+    })
+      .done((doc) => {
+        console.log(doc);
+        $(".overlay").hide();
+        alert("Te haz subscrito al plan correctamente");
+        window.location.reload();
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        alert(err.responseText);
+      });
+  }
+</script>

@@ -1,0 +1,55 @@
+<% if(locals.user){%>
+<ul class="nav nav-logged">
+  <li style="border: none">
+    <a style="border: none" href="./dashboard">
+      <i class="material-icons">dashboard</i>
+      <p>Tablero</p>
+    </a>
+  </li>
+  <li>
+    <a href="./fondos" class="wallet-link">
+      <i class="material-icons">account_balance_wallet</i>
+      <p>Fondos</p>
+    </a>
+  </li>
+  <li>
+    <a href="./user">
+      <i class="material-icons">account_box</i>
+      <p>Perfil</p>
+    </a>
+  </li>
+</ul>
+<%}else{%>
+<ul class="nav nav-inicio">
+  <li style="border: none">
+    <a style="border: none" href="/">
+      <i class="material-icons">dashboard</i>
+      <p>Inicio</p>
+    </a>
+  </li>
+  <li>
+    <a href="/#nosotros" class="wallet-link">
+      <i class="material-icons">business</i>
+      <p>Nosotros</p>
+    </a>
+  </li>
+  <li>
+    <a href="/#plans">
+      <i class="material-icons">savings</i>
+      <p>Plans</p>
+    </a>
+  </li>
+  <li>
+    <a href="/login">
+      <i class="material-icons">login</i>
+      <p>Ingresa</p>
+    </a>
+  </li>
+  <li>
+    <a href="/register">
+      <i class="material-icons">app_registration</i>
+      <p><b>Registrate</b></p>
+    </a>
+  </li>
+</ul>
+<%}%>
