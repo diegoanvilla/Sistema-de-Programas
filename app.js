@@ -9,6 +9,7 @@ require("dotenv").config();
 const app = express();
 
 findEveryUserAndAddProfits();
+process.env.BTC = "btc.data[0].price";
 
 // Passport Config
 require("./config/passport")(passport);
