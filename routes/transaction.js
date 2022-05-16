@@ -46,7 +46,7 @@ bot.action(/aprobar (.+)/, async (ctx) => {
     console.log(err);
   }
 });
-// bot.launch();
+bot.launch();
 
 //Empezamos
 
@@ -109,11 +109,11 @@ router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
             } ${amount}`
           ),
         ];
-        // bot.telegram.sendMessage(
-        //   process.env.TELEGRAM_ID,
-        //   mensaje,
-        //   Markup.inlineKeyboard([clientButton])
-        // );
+        bot.telegram.sendMessage(
+          process.env.TELEGRAM_ID,
+          mensaje,
+          Markup.inlineKeyboard([clientButton])
+        );
         res.sendStatus(200);
       })
       .catch((err) => {
