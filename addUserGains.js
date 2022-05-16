@@ -1,14 +1,31 @@
 const nodeSchedule = require("node-schedule");
+const axios = require("axios");
 const Plan = require("./models/Plans");
-const User = require("./models/User");
-const https = require("https");
-const findEveryUserAndAddProfits = () => {
-  nodeSchedule.scheduleJob("44  */1 * * *", () => {
-    https.get(process.env.GET_SP, (doc) => {
-      doc.on("data", (d) => console.log(d));
-      console.log(doc.statusCode, doc.headers);
-    });
+const findEveryUserAndAddProfits = async () => {
+  nodeSchedule.scheduleJob("15 * * * *", async () => {
+    console.log("corriendo");
+    await updateConservador();
   });
+};
+
+const updateConservador = async () => {
+  await axios
+    .get(process.env.GET_SP)
+    .then(async (response) => {
+      await Plan.findOneAndUpdate(
+        { plan: "1" },
+        {
+          $push: {
+            historialDia: { $each: [response.data[0].price], $slice: -24 },
+          },
+        }
+      )
+        .then(console.log("Updated Plan"))
+        .catch(console.log);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 module.exports = findEveryUserAndAddProfits;

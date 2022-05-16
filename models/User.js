@@ -60,11 +60,8 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, default: "" },
     number: { type: Number, default: "" },
     date: { type: Date, default: Date.now() },
+    invested: { type: Number, required: true, default: 0 },
     porcentaje: { type: Number, default: 0 },
-    finish_date: {
-      type: Date,
-      default: Date.now() + 400 * 24 * 60 * 60 * 1000,
-    },
   },
 
   transacciones: [TransaccionesSchema],

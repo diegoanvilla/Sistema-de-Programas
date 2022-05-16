@@ -17,8 +17,11 @@ const PlanSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  precio: {
-    type: Number,
+  historialDia: {
+    type: Array,
+    default: [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
     required: true,
   },
 });

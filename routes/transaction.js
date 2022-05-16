@@ -21,7 +21,7 @@ bot.command("start", (ctx) => {
 bot.action(/aprobar (.+)/, async (ctx) => {
   const info = ctx.match[1].split(" ");
   try {
-    await User.updateOne(
+    await User.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(info[0]) },
       {
         $set: {
@@ -38,7 +38,8 @@ bot.action(/aprobar (.+)/, async (ctx) => {
           },
         ],
       }
-    ).then(() => {
+    ).then((user) => {
+      setUserStartingPosition(user, info[2]);
       bot.telegram.sendMessage(process.env.TELEGRAM_ID, "Aprobado");
     });
   } catch (err) {
@@ -65,6 +66,7 @@ router.get("/getTransacionInfo/:id", async (req, res) => {
 
 router.post("/addFund", ensureAuthenticated, async (req, res, next) => {
   const { fund } = req.body;
+
   if (!fund) {
     res.status(400).send("El numero debe ser mayor a 0");
   } else {
@@ -94,7 +96,6 @@ router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
       { returnOriginal: false }
     )
       .then((user) => {
-        console.log(user);
         const mensaje = `El usuario \n${req.user.name} \nCorreo ${
           req.user.email
         } \nHa realizado un pago movil de ${
@@ -172,7 +173,9 @@ router.post("/subscribetoplan/", ensureAuthenticated, async (req, res) => {
         { _id: _id },
         {
           $set: {
-            plan: { name: doc.name, number: doc.plan },
+            "plan.name": doc.name,
+            "plan.number": doc.plan,
+            "plan.invested": balance / doc.historialDia[23],
           },
         }
       )
@@ -191,5 +194,19 @@ const match = (array, ref) =>
   array.filter((v) => {
     return v.ref == ref;
   });
+
+const setUserStartingPosition = async (user, amount) => {
+  console.log(user, amount);
+  const plan = user.plan.number;
+  if (!plan) return;
+  let newUserInvestedBalance;
+  await Plan.findOne({ plan: plan }).then(async (doc) => {
+    newUserInvestedBalance = amount / doc.historialDia[23];
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      { $inc: { "plan.invested": newUserInvestedBalance } }
+    );
+  });
+};
 
 module.exports = router;
