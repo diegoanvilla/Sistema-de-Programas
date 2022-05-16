@@ -4,16 +4,17 @@ const Plan = require("./models/Plans");
 const findEveryUserAndAddProfits = async () => {
   nodeSchedule.scheduleJob("15 * * * *", async () => {
     console.log("corriendo");
-    await updateConservador();
+    await updatePlan(process.env.GET_SP, "1");
+    await updatePlan(process.env.GET_BTC, "3");
   });
 };
 
-const updateConservador = async () => {
+const updatePlan = async (link, plan) => {
   await axios
-    .get(process.env.GET_SP)
+    .get(link)
     .then(async (response) => {
       await Plan.findOneAndUpdate(
-        { plan: "1" },
+        { plan: plan },
         {
           $push: {
             historialDia: { $each: [response.data[0].price], $slice: -24 },
