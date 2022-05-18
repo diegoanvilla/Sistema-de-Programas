@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("connect-flash");
 const session = require("express-session");
-const findEveryUserAndAddProfits = require("./addUserGains");
+const findEveryUserAndAddProfits = require("./updatePlanGains");
 const Plan = require("./models/Plans");
 require("dotenv").config();
 const app = express();

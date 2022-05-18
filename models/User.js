@@ -30,27 +30,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  balance: {
-    type: Number,
-    required: true,
-  },
   invertido: {
     type: Number,
     required: true,
     default: 0.0,
-  },
-  ganancia: {
-    type: Number,
-    required: true,
-    default: 0.0,
-  },
-  confirmado: {
-    type: Boolean,
-    default: false,
-  },
-  confirmLink: {
-    type: String,
-    default: "",
   },
   date: {
     type: Date,

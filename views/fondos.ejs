@@ -96,7 +96,7 @@
                 <div class="col-md-6">
                     <div class="card card-user h-100 d-flex flex-column align-items-center justify-content-center p-3">
                         <h4 class="m-0">Balance: </h4>
-                        <h3 class="m-0"> <%= user.balance.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                        <h3 class="m-0"> <%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</h3>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -108,7 +108,7 @@
                 <div class="col-md-12">
                   <div class="card card-user h-100 d-flex mt-3 flex-column align-items-center justify-content-center p-3">
                         <h4 class="m-0">Ganancias Acumuladas: </h4>
-                        <h3 class="m-0"><%= user.ganancia.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                        <h3 class="m-0"><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true}) %> USD</h3>
                     </div>
                 </div>
                 <div class="col-md-12 mt-5">

@@ -46,7 +46,17 @@ bot.action(/aprobar (.+)/, async (ctx) => {
     console.log(err);
   }
 });
-// bot.launch();
+bot.command("apagar", (ctx) => {
+  process.env.ON = 0;
+  bot.telegram.sendMessage(ctx.chat.id, "Pagina Apagada.", {});
+  console.log(process.env.ON);
+});
+bot.command("encender", (ctx) => {
+  process.env.ON = 1;
+  bot.telegram.sendMessage(ctx.chat.id, "Pagina Online", {});
+  console.log(process.env.ON);
+});
+bot.launch();
 
 //Empezamos
 

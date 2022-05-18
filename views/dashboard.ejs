@@ -100,13 +100,13 @@
                     <div class="col-md-3   text-center">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Balance:</h5>
-                        <h4><%= user.balance.toLocaleString('es', {useGrouping:true}) %> USD</h4>
+                        <h4><%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</h4>
                       </div>
                     </div>
                     <div class="col-md-3 text-center">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Ganancia acumulada:</h5>
-                        <h4><%= user.ganancia.toLocaleString('es', {useGrouping:true}) %> USD</h4>
+                        <h4><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true}) %> USD</h4>
                       </div>
                     </div>
                     <div class="col-md-3 text-center">
@@ -131,14 +131,14 @@
                     </div>
                     <div class="col-md-6 my-3">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
-                        <h5>Porcentaje ganado</h5>
-                        <h4><%= user.plan.porcentaje%>%</h4>
+                        <h5>Porcentaje de retorno</h5>
+                        <h4><%= (((user.plan.invested*plan.comodidad-user.invertido)/user.invertido)*100).toFixed() %>%</h4>
                       </div>
                     </div>
                     <div class="col-md-6 my-3">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
-                        <h5>Rendimiento del Plan</h5>
-                        <h4>~%</h4>
+                        <h5>Rendimiento del Plan Diario</h5>
+                        <h4><%= plan.planDiario%></h4>
                       </div>
                     </div>
                   </div>

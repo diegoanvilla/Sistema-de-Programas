@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="/img/img.png" rel="icon" type="image/x-icon" />
   <title>
-    Forum
+    User
   </title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -39,7 +39,7 @@
           I
         </a>
         <a href="./dashboard" class="simple-text logo-normal">
-          Forum
+          User
         </a>
       </div>
       <%-include("nav.ejs")%>
@@ -99,16 +99,14 @@
                       <div class="author">
                           <img class="avatar" src="/img/img.png" alt="">
                           <h5 class="title"><%= user.name %></h5>
-                        <!-- <p class="description">
-                          <%= user.group %>
-                        </p> -->
+                        
                       <p>
                      Email: <%= user.email %>
                     </p>
                     <p>
                       Fecha de Registro: <%= user.date.toDateString() %>
                     </p>
-                    <p>Balance: <%= user.balance.toLocaleString('es', {useGrouping:true})%> USD</p>
+                    <p>Balance: <%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</p>
                     <p>Invertido: <%= user.invertido.toLocaleString('es', {useGrouping:true})%> USD</p>
                     <p>Plan: <% if(user.plan.name){ %>
                         <%=user.plan.name%>
