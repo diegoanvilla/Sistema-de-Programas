@@ -1,0 +1,56 @@
+<div class="mb-5">
+  <div class="card h-100 input-box ml-auto mr-auto card-upgrade p-4">
+    <form id="fund">
+      <div class="form-group text-center">
+        <h4>Retirar Balance</h4>
+        <input
+          type="number"
+          id="fund"
+          name="fund"
+          class="form-control"
+          placeholder="Cantidad"
+          value=""
+        />
+        <small class="red fund-error"></small>
+        <button
+          type="submit"
+          class="btn btn-default btn-block animation-on-hover"
+        >
+          Retirar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  $(document).on("submit", "form#fund", function (e) {
+    e.preventDefault();
+    $("html").append("<div class='overlay'></div>");
+    const data = $("#fund").serialize();
+    console.log(data);
+    $.ajax({
+      url: "/addFund",
+      type: "POST",
+      data: data,
+    })
+      .done((res) => {
+        $(".overlay").remove();
+        $("html").append(res);
+        $(".popup-overlay")
+          .click((e) => {
+            $(".popup-overlay").hide();
+          })
+          .catch((err) => {
+            $(".overlay").remove();
+            alert("Algo salio mal");
+          });
+        $(".popup").click((e) => {
+          e.stopPropagation();
+        });
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        $(".fund-error").html(`${err.responseText}`);
+      });
+  });
+</script>

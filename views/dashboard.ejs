@@ -100,13 +100,21 @@
                     <div class="col-md-3   text-center">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Balance:</h5>
+                        <%if(!plan){%>
+                          <h4>0 USD</h4>
+                          <%}else{%>
                         <h4><%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</h4>
+                        <%}%>
                       </div>
                     </div>
                     <div class="col-md-3 text-center">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Ganancia acumulada:</h5>
-                        <h4><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true}) %> USD</h4>
+                        <%if(!plan){%>
+                          <h4>0 USD</h4>
+                          <%}else{%>
+                            <h4><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true}) %> USD</h4>
+                        <%}%>
                       </div>
                     </div>
                     <div class="col-md-3 text-center">
@@ -132,13 +140,21 @@
                     <div class="col-md-6 my-3">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Porcentaje de retorno</h5>
-                        <h4><%= (((user.plan.invested*plan.comodidad-user.invertido)/user.invertido)*100).toFixed() %>%</h4>
+                        <%try{%>
+                          <h4><%= (((user.plan.invested*plan.comodidad-user.invertido)/user.invertido)*100).toFixed() %>%</h4>
+                        <%}catch(err){%>
+                          <h4>0%</h4>
+                          <%}%>
                       </div>
                     </div>
                     <div class="col-md-6 my-3">
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Rendimiento del Plan Diario</h5>
-                        <h4><%= plan.planDiario%></h4>
+                        <%if(!plan){%>
+                          <h4>0%</h4>
+                          <%}else{%>
+                            <h4><%= plan.planDiario%></h4>
+                        <%}%>
                       </div>
                     </div>
                   </div>
@@ -155,10 +171,12 @@
                 </div>
               </div>
             </div> -->
-            <div class="mx-auto col-md-4">
+            <div class="mx-auto col-md-6">
               <%- include("fondo-input.ejs")%>
             </div>
-            
+            <div class="mx-auto col-md-6">
+              <%- include("retirar-fondo-input.ejs")%>
+            </div>
               <h1>Selecciona uno de nuestros planes de inversion</h1>
               <%- include("plans.ejs")%>
           </div>

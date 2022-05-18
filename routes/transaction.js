@@ -56,7 +56,7 @@ bot.command("encender", (ctx) => {
   bot.telegram.sendMessage(ctx.chat.id, "Pagina Online", {});
   console.log(process.env.ON);
 });
-bot.launch();
+// bot.launch();
 
 //Empezamos
 
