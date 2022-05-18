@@ -30,5 +30,8 @@ router.get("/user", ensureAuthenticated, (req, res) =>
     user: req.user,
   })
 );
+router.get("/planPorcentaje", (req, res) => {
+  res.send([process.env.CD, process.env.MD, process.env.AD]);
+});
 
 module.exports = router;

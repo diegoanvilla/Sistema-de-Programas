@@ -1,6 +1,6 @@
 <script src="/js/plan.js"></script>
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <a
       class="card fade-custom mx-0 card-upgrade h-100 d-flex align-items-center justify-content-center btn btn-defailt btn-block animation-on-hover card-header"
       href="javascript:planSelected(1)"
@@ -10,12 +10,15 @@
           >pedal_bike</span
         >
         <h1>Plan Conservador</h1>
-        <h3>Porcentaje de Retorno promedio <span class="gold">~%</span></h3>
+        <h3>
+          Porcentaje de Retorno Diario
+          <span class="gold" id="porcentaje0">loading</span>
+        </h3>
         <small>Cada 24 horas</small>
       </div>
     </a>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     <a
       class="card fade-custom mx-0 card-upgrade h-100 d-flex align-items-center justify-content-center btn btn-defailt btn-block animation-on-hover card-header"
       href="javascript:planSelected(2)"
@@ -25,12 +28,15 @@
           >agriculture</span
         >
         <h1>Plan Moderado</h1>
-        <h3>Porcentaje de Retorno promedio <span class="gold">~%</span></h3>
+        <h3>
+          Porcentaje de Retorno Diario
+          <span class="gold" id="porcentaje1">loading</span>
+        </h3>
         <small>Cada 24 horas</small>
       </div>
     </a>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-12 mt-4">
     <a
       class="card fade-custom mx-0 card-upgrade h-100 d-flex align-items-center justify-content-center btn btn-defailt btn-block animation-on-hover card-header"
       href="javascript:planSelected(3)"
@@ -40,44 +46,67 @@
           >two_wheeler</span
         >
         <h1>Plan Arriesgado</h1>
-        <h3>Porcentaje de Retorno promedio <span class="gold">~%</span></h3>
+        <h3>
+          Porcentaje de Retorno Diario
+          <span class="gold" id="porcentaje2">loading</span>
+        </h3>
         <small>Cada 24 horas</small>
       </div>
     </a>
   </div>
 </div>
 <script>
-  function planSelected(id) {
-    // alert("Huh");
-    // if (!user) {
-    //   window.location.href = "/dashboard";
-    //   return;
-    // }
+  $(document).ready(() => {
+    $.ajax({
+      url: "/planPorcentaje",
+      type: "GET",
+    })
+      .done((res) => {
+        console.log(res.length);
+        for (i = 0; i < 3; i++) {
+          console.log(res[i]);
+          $(`#porcentaje${i}`).html(res[i]);
+        }
+      })
+      .fail((err) => {
+        alert("Algo salio mal");
+      });
+  });
+  async function planSelected(id) {
     $("html").append("<div class='overlay'></div>");
     $.ajax({
       url: `/getTransacionInfo/${id}`,
       type: "GET",
-    }).done((res) => {
-      $(".overlay").remove();
-      $("html").append(res);
-      $(".popup-overlay")
-        .click((e) => {
-          $(".popup-overlay").hide();
-        })
-        .catch((err) => {
-          $(".overlay").remove();
-          alert("Algo salio mal");
+    })
+      .done((res) => {
+        $(".overlay").remove();
+        $("html").append(res);
+        $(".popup-overlay")
+          .click((e) => {
+            $(".popup-overlay").hide();
+          })
+          .catch((err) => {
+            $(".overlay").remove();
+            alert("Algo salio mal");
+          });
+        $(".popup").click((e) => {
+          e.stopPropagation();
         });
-      $(".popup").click((e) => {
-        e.stopPropagation();
+        $.ajax({
+          url: `/getplan/${id}`,
+          type: "GET",
+        })
+          .done((res) => {
+            console.log(res);
+            plan = res;
+          })
+          .fail((err) => {
+            console.log(err);
+          });
+      })
+      .fail((err) => {
+        $(".overlay").remove();
+        alert("Inicia sesion para escoger un plan");
       });
-    });
-    $.ajax({
-      url: `/getplan/${id}`,
-      type: "GET",
-    }).done((res) => {
-      console.log(res);
-      plan = res;
-    });
   }
 </script>

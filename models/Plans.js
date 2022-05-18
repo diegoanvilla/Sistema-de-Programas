@@ -24,6 +24,10 @@ const PlanSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  porcentajeDia: {
+    type: String,
+    default: "0%",
+  },
 });
 
 const Plan = mongoose.model("Plan", PlanSchema);

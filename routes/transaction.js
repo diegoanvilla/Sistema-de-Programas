@@ -46,12 +46,13 @@ bot.action(/aprobar (.+)/, async (ctx) => {
     console.log(err);
   }
 });
-bot.launch();
+// bot.launch();
 
 //Empezamos
 
 router.get("/getTransacionInfo/:id", async (req, res) => {
   try {
+    if (!req.user) throw "Inicia sesion para escoger un plan";
     Plan.findOne({ plan: req.params.id }).then((doc) => {
       const { balance } = req.user;
       res.render("popup.ejs", {
@@ -60,7 +61,7 @@ router.get("/getTransacionInfo/:id", async (req, res) => {
       });
     });
   } catch (err) {
-    alert("Algo Salio Mal");
+    res.sendStatus(500);
   }
 });
 

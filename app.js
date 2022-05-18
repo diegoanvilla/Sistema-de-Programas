@@ -5,11 +5,11 @@ const passport = require("passport");
 const flash = require("connect-flash");
 const session = require("express-session");
 const findEveryUserAndAddProfits = require("./addUserGains");
+const Plan = require("./models/Plans");
 require("dotenv").config();
 const app = express();
 
 findEveryUserAndAddProfits();
-process.env.BTC = "btc.data[0].price";
 
 // Passport Config
 require("./config/passport")(passport);
@@ -66,6 +66,18 @@ app.use("/core", express.static("core"));
 app.use("/plugins", express.static("plugins"));
 app.use("/img", express.static("img"));
 
-const PORT = process.env.PORT || 80;
+const whenStartServer = async () => {
+  const priceSP = await Plan.findOne({ plan: "1" });
+  const priceModerado = await Plan.findOne({ plan: "2" });
+  const priceBTC = await Plan.findOne({ plan: "3" });
+  process.env.SP = priceSP.historialDia[23];
+  process.env.BTC = priceBTC.historialDia[23];
+  process.env.CD = `${priceSP.porcentajeDia}`;
+  process.env.MD = `${priceModerado.porcentajeDia}`;
+  process.env.AD = `${priceBTC.porcentajeDia} `;
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+  const PORT = process.env.PORT || 80;
+
+  app.listen(PORT, console.log(`Server started on port ${PORT}`));
+};
+whenStartServer();
