@@ -1,4 +1,4 @@
-<input type="hidden" id="amount" value="<%= fund.toLocaleString('es', {useGrouping:true}) %>" />
+<input type="hidden" id="amount" value="<%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2}) %>" />
 <div class="popup-overlay container-fluid">
   <div class="popup row">
     <div class="col-12 text-center plan-box">
@@ -6,11 +6,11 @@
         <div class="col-md-12 mx-auto text-center">
           <p class="my-2">Añadir:</p>
           <h1 class="mb-0">
-            <b><%= fund.toLocaleString('es', {useGrouping:true})%> USD</b>
+            <b><%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})%> USD</b>
           </h1>
           <p class="w-100 my-2">Debes Transferir Via Pago Movil</p>
           <h1 class="mb-0">
-            <b><%= fund.toLocaleString('es', {useGrouping:true})*5%> Bs</b>
+            <b><%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})*5%> Bs</b>
           </h1>
           <p class="my-2">A la siguiente cuenta bancaria:</p>
           <div class="movimientos-container mt-3">

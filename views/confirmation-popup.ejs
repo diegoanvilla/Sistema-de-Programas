@@ -4,12 +4,13 @@
       <h1><b>Subscribe to plan <%=plan.name%></b></h1>
       <h2>
         <b
-          >Price: <%=plan.precio.toLocaleString('es', {useGrouping:true})%>
-          USD</b
+          >Price: <%=plan.precio.toLocaleString('es', {useGrouping:true,
+          minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD</b
         >
       </h2>
       <p class="mb-5">
-        Your Balance: <%= balance.toLocaleString('es', {useGrouping:true})%> USD
+        Your Balance: <%= balance.toLocaleString('es', {useGrouping:true,
+        minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD
       </p>
       <button
         type="submit"

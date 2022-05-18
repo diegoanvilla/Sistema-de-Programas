@@ -4,7 +4,10 @@
       <h1><b>Confirmar Transaccion</b></h1>
       <% if(plan.name){%>
       <h3>
-        <b>Añadir: <%=rent.toLocaleString('es', {useGrouping:true})%> USD</b>
+        <b
+          >Añadir: <%=rent.toLocaleString('es', {useGrouping:true,
+          minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD</b
+        >
       </h3>
       <p class="mb-5">Tu Plan Actual: <%= plan.name%> Plan</p>
       <p>

@@ -3,13 +3,16 @@
     <div class="col-12 text-center">
       <h1><b>Retira desde tu fondo de inversiones!</b></h1>
       <!-- <h2> -->
-      <!-- <b>Precio: <%=precio.toLocaleString('es', {useGrouping:true})%> USD</b> -->
+      <!-- <b>Precio: <%=precio.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})%> USD</b> -->
       <!-- </h2> -->
       <div class="row w-100 m-0">
         <div class="col-md-6 mx-auto text-center">
           <p class="">Tu Balance:</p>
           <h3>
-            <b><%= balance.toLocaleString('es', {useGrouping:true})%> USD</b>
+            <b
+              ><%= balance.toLocaleString('es', {useGrouping:true,
+              minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD</b
+            >
           </h3>
         </div>
       </div>

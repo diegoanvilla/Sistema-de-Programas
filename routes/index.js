@@ -38,12 +38,6 @@ router.get("/fondos", ensureAuthenticated, (req, res) => {
   });
 });
 
-router.get("/1", ensureAuthenticated, (req, res) =>
-  res.render("1", {
-    user: req.user,
-  })
-);
-
 router.get("/user", ensureAuthenticated, (req, res) => {
   const enviromentPlans = [
     { planDiario: process.env.CD, comodidad: process.env.SP },

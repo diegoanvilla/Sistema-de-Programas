@@ -9,7 +9,10 @@
         <div class="col-md-6 mx-auto text-center">
           <p class="">Tu Balance:</p>
           <h3>
-            <b><%= invertido.toLocaleString('es', {useGrouping:true})%> USD</b>
+            <b
+              ><%= invertido.toLocaleString('es', {useGrouping:true,
+              minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD</b
+            >
           </h3>
         </div>
         <small class="text-center mb-1"

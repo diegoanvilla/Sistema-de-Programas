@@ -5,7 +5,7 @@
         <h4>Retirar Balance</h4>
         <input
           type="number"
-          id="fund"
+          id="takeFund"
           name="fund"
           class="form-control"
           placeholder="Cantidad"
@@ -23,13 +23,13 @@
   </div>
 </div>
 <script>
-  $(document).on("submit", "form#fund", function (e) {
+  $(document).on("submit", "form#takeFund", function (e) {
     e.preventDefault();
     $("html").append("<div class='overlay'></div>");
     const data = $("#fund").serialize();
     console.log(data);
     $.ajax({
-      url: "/addFund",
+      url: "/takeFund",
       type: "POST",
       data: data,
     })

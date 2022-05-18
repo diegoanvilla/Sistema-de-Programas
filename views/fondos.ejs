@@ -99,14 +99,14 @@
                         <%if(!plan){%>
                         <h3 class="m-0"> 0 USD</h3>
                           <%}else{%>
-                        <h3 class="m-0"> <%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</h3>
+                        <h3 class="m-0"> <%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2}) %> USD</h3>
                         <%}%>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card card-user h-100 d-flex flex-column align-items-center justify-content-center p-3">
                         <h4 class="m-0">Invertido: </h4>
-                        <h3 class="m-0"><%= user.invertido.toLocaleString('es', {useGrouping:true})%> USD</h3>
+                        <h3 class="m-0"><%= user.invertido.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})%> USD</h3>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -115,7 +115,7 @@
                         <%if(!plan){%>
                           <h3 class="m-0">0 USD</h3>
                           <%}else{%>
-                            <h3 class="m-0"><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true}) %> USD</h3>
+                            <h3 class="m-0"><%= ((user.plan.invested*plan.comodidad)-user.invertido).toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2}) %> USD</h3>
                         <%}%>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                 <div class="col-md-12 mt-5 p-0">
                     <div class="card card-user p-lg-5 p-2 text-center movimientos-container">
                         <h1>Moviemientos</h1>
-                        <% for(var i=user.transacciones.length-1; i > 0; i--) { %>
+                        <% for(var i=user.transacciones.length-1; i >= 0; i--) { %>
                             <a href="javascript:showDetails(<%=i%>)" class="w-100 movimientos d-flex flex-column p-1 align-items-center justify-content-between">
                               <div class="d-flex align-items-center justify-content-between w-100">
                                 <p class="m-0"><%= user.transacciones[i].type %></p>
