@@ -56,7 +56,7 @@ bot.command("encender", (ctx) => {
   bot.telegram.sendMessage(ctx.chat.id, "Pagina Online", {});
   console.log(process.env.ON);
 });
-bot.launch();
+// bot.launch();
 
 //Empezamos
 
@@ -64,13 +64,14 @@ router.get("/getTransacionInfo/:id", async (req, res) => {
   try {
     if (!req.user) throw "Inicia sesion para escoger un plan";
     Plan.findOne({ plan: req.params.id }).then((doc) => {
-      const { balance } = req.user;
+      const { invertido } = req.user;
       res.render("popup.ejs", {
         plan: doc,
-        balance: balance,
+        invertido: invertido,
       });
     });
   } catch (err) {
+    console.log(err);
     res.sendStatus(500);
   }
 });
@@ -174,7 +175,7 @@ router.post("/processPayment", ensureAuthenticated, async (req, res) => {
 });
 
 router.post("/subscribetoplan/", ensureAuthenticated, async (req, res) => {
-  const { balance, _id } = req.user;
+  const { invertido, _id } = req.user;
   const plan = req.body.data;
   Plan.findOne({ plan: plan }).then((doc) => {
     if (req.user.plan.number == plan) {
@@ -186,7 +187,7 @@ router.post("/subscribetoplan/", ensureAuthenticated, async (req, res) => {
           $set: {
             "plan.name": doc.name,
             "plan.number": doc.plan,
-            "plan.invested": balance / doc.historialDia[23],
+            "plan.invested": invertido / doc.historialDia[23],
           },
         }
       )

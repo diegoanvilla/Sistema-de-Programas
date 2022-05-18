@@ -106,7 +106,11 @@
                     <p>
                       Fecha de Registro: <%= user.date.toDateString() %>
                     </p>
-                    <p>Balance: <%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</p>
+                    <%if(plan){%>
+                      <p>Balance: <%=  (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true}) %> USD</p>
+                    <%}else{%>
+                      <p>Balance: <%=  user.invertido %> USD</p>
+                    <%}%>
                     <p>Invertido: <%= user.invertido.toLocaleString('es', {useGrouping:true})%> USD</p>
                     <p>Plan: <% if(user.plan.name){ %>
                         <%=user.plan.name%>

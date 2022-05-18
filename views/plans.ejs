@@ -106,6 +106,7 @@
       })
       .fail((err) => {
         $(".overlay").remove();
+        console.log(err);
         alert("Inicia sesion para escoger un plan");
       });
   }
