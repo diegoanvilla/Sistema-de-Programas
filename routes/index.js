@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+const getUserPlan = require("../getUserPlan.js");
 // ensureAuthenticated makes sure user is logged in when viewing
 
 router.get("/", forwardAuthenticated, (req, res) => res.render("welcome"));
@@ -33,15 +34,4 @@ router.get("/planPorcentaje", (req, res) => {
   res.send([process.env.CD, process.env.MD, process.env.AD]);
 });
 
-const getUserPlan = (plan) => {
-  const enviromentPlans = [
-    { planDiario: process.env.CD, comodidad: process.env.SP },
-    {
-      planDiario: process.env.MD,
-      comodidad: (parseFloat(process.env.SP) + parseFloat(process.env.BTC)) / 2,
-    },
-    { planDiario: process.env.AD, comodidad: process.env.BTC },
-  ];
-  return enviromentPlans[plan - 1];
-};
 module.exports = router;

@@ -1,8 +1,8 @@
 const User = require("./models/User");
 const Telegraf = require("telegraf");
 const mongoose = require("mongoose");
-
-const bot = new Telegraf.Telegraf(process.env.BOT);
+const getUserPlan = require("./getUserPlan.js");
+const bot = new Telegraf.Telegraf(process.env.BOT_REPUESTO);
 bot.command("start", (ctx) => {
   console.log(ctx.from);
   bot.telegram.sendMessage(
