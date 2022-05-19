@@ -10,8 +10,9 @@
           <p class="">Tu Balance:</p>
           <h3>
             <b
-              ><%= invertido.toLocaleString('es', {useGrouping:true,
-              minimumFractionDigits: 2, maximumFractionDigits: 2})%> USD</b
+              ><%= (planOld.comodidad*user.plan.invested).toLocaleString('es',
+              {useGrouping:true, minimumFractionDigits: 2,
+              maximumFractionDigits: 2})%> USD</b
             >
           </h3>
         </div>

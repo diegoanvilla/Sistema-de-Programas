@@ -2,7 +2,7 @@ const nodeSchedule = require("node-schedule");
 const axios = require("axios");
 const Plan = require("./models/Plans");
 const findEveryUserAndAddProfits = async () => {
-  nodeSchedule.scheduleJob("09 * * * *", async () => {
+  nodeSchedule.scheduleJob("39 * * * *", async () => {
     console.log("corriendo");
     let moderado;
     try {

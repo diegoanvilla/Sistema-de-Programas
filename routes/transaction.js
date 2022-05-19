@@ -9,12 +9,13 @@ const Markup = Telegraf.Markup;
 
 router.get("/getTransacionInfo/:id", async (req, res) => {
   try {
+    const planData = getUserPlan(req.user.plan.number);
     if (!req.user) throw "Inicia sesion para escoger un plan";
     Plan.findOne({ plan: req.params.id }).then((doc) => {
-      const { invertido } = req.user;
       res.render("popup.ejs", {
         plan: doc,
-        invertido: invertido,
+        user: req.user,
+        planOld: planData,
       });
     });
   } catch (err) {
