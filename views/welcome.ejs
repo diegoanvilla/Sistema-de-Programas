@@ -84,7 +84,7 @@
       </div>
         <div class="jumbotron-content offset-md-2 col-md-10">
           <h1 class="fade-custom"><b>Sistema de Programas</b></h1>
-          <h4 class="fade-custom">Lorem ipsum dolor sit amet consectetur adipisicing elit</h4>
+          <h4 class="fade-custom">Universidad Jose Antonio Paez</h4>
           <a class="jumbotron-button fade-custom" href="#ingreso">Unete!</a>
         </div>
       </div>
@@ -97,31 +97,33 @@
                 Proyecto de la Universidad Jose Antonio Paez cuya funcion es la ejemplificacion de un sistema de inversiones simplificada para al usuario usando varios diferentes sistemas para su funcionamiento.
               </p>
             </div>
-            <div class="row mb-5">
-              <div class="col-md-6 h-100">
-                <div class="card fade-custom h-100 card-upgrade logros card-header">
-                  <h1>Objetivo</h1>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore odio repellat itaque dicta voluptatibus! Veritatis velit nesciunt libero temporibus beatae eaque culpa maiores molestiae. Non pariatur animi voluptatem placeat laborum.</p>
+            <div class="row row-eq-height mb-5">
+              <div class="col-md-6 mb-5">
+                <div class="card fade-custom h-100  card-upgrade logros card-header">
+                  <h1>Diseño</h1>
+                  <p>su diseño como aplicación web se implementó a través de lenguajes de programación como JavaScript y el entorno de programación Node.js, apoyándose de las plantillas EJS que son parte del entorno. A su vez se utilizó el framework Express.js para el desarrollo back-end del sistema y el gestor de base de datos MongoDB, una base de datos de tipo no relacional.</p>
                 </div>
               </div>
-              <div class="col-md-6 h-100">
-                <div class="card fade-custom h-100 card-upgrade logros card-header">
+              <div class="col-md-6 mb-5">
+                <div class="card fade-custom h-100  card-upgrade logros card-header">
                   <h1>¿Cómo funciona?</h1>
                   <p>Ingresa o Registrate y empieza abonando liquidez a tu fondo para luego escoger un plan de inversion y a medida que el tiempo va pasando y dependiendo del comportamiento del mercado de las comodidades utilizadas para representar cada plan observa tu balance cambiar</p>
                 </div>
               </div>
-              <div class="col-md-6 h-100">
-                <div class="card h-100 fade-custom card-upgrade logros card-header">
-                  <h1>Lorem Ipsum</h1>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime illo est, vitae deserunt autem vero omnis a atque cumque, accusantium dolore expedita amet voluptatem. Aliquid placeat dignissimos animi quia sed.</p>
+              <div class="col-md-12 ">
+                <div class="card  fade-custom card-upgrade logros card-header">
+                  <h1>Objetivos</h1>
+                  <p>Un sistema que permita la automatización de la gestión de manejo de inversiones monetarias, que se integre a la plataforma web, y que a su vez apoye, mejore y controle la ejecución de las operaciones diarias, además de satisfacer las necesidades de información usuario. 
+                    El sistema será capaz de reducir costos e incrementar beneficios en materia de inversión, lo que sin duda es decisivo a la hora de triunfar en la actualidad.
+                    El sistema que se diseñó, facilita la ejecución de los procesos correspondientes a la labor de inversiones, tales como: procesamiento, administración y monitoreo de operaciones a realizar periódicamente.</p>
                 </div>
               </div>
-              <div class="col-md-6 h-100">
+              <!-- <div class="col-md-6 h-100">
                 <div class="card h-100 fade-custom card-upgrade logros card-header">
                   <h1>Lorem Ipsum</h1>
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quidem consequuntur pariatur officia similique,  reiciendis eius ipsam non nostrum eos, recusandae, blanditiis minima veniam rem.</p>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <h1 id="plans">Nuestros planes de inversion</h1>
@@ -170,119 +172,6 @@
   <script src="/js/black-dashboard.min.js?v=1.0.0"></script>
   <script src="/particles/js/app.js"></script>
   <script src="/js/plan.js"></script>
-
-
-  <script>
-    $(document).ready(function () {
-      // $().ready(function () {
-      //   $sidebar = $('.sidebar');
-      //   $navbar = $('.navbar');
-      //   $main_panel = $('.main-panel');
-
-      //   $full_page = $('.full-page');
-
-      //   $sidebar_responsive = $('body > .navbar-collapse');
-      //   sidebar_mini_active = true;
-      //   white_color = false;
-
-      //   window_width = $(window).width();
-
-      //   fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-
-
-      //   $('.fixed-plugin a').click(function (event) {
-      //     if ($(this).hasClass('switch-trigger')) {
-      //       if (event.stopPropagation) {
-      //         event.stopPropagation();
-      //       } else if (window.event) {
-      //         window.event.cancelBubble = true;
-      //       }
-      //     }
-      //   });
-
-      //   $('.fixed-plugin .background-color span').click(function () {
-      //     $(this).siblings().removeClass('active');
-      //     $(this).addClass('active');
-
-      //     var new_color = $(this).data('color');
-
-      //     if ($sidebar.length != 0) {
-      //       $sidebar.attr('data', new_color);
-      //     }
-
-      //     if ($main_panel.length != 0) {
-      //       $main_panel.attr('data', new_color);
-      //     }
-
-      //     if ($full_page.length != 0) {
-      //       $full_page.attr('filter-color', new_color);
-      //     }
-
-      //     if ($sidebar_responsive.length != 0) {
-      //       $sidebar_responsive.attr('data', new_color);
-      //     }
-      //   });
-
-      //   $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
-      //     var $btn = $(this);
-
-      //     if (sidebar_mini_active == true) {
-      //       $('body').removeClass('sidebar-mini');
-      //       sidebar_mini_active = false;
-      //       blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
-      //     } else {
-      //       $('body').addClass('sidebar-mini');
-      //       sidebar_mini_active = true;
-      //       blackDashboard.showSidebarMessage('Sidebar mini activated...');
-      //     }
-
-      //     // we simulate the window Resize so the charts will get updated in realtime.
-      //     var simulateWindowResize = setInterval(function () {
-      //       window.dispatchEvent(new Event('resize'));
-      //     }, 180);
-
-      //     // we stop the simulation of Window Resize after the animations are completed
-      //     setTimeout(function () {
-      //       clearInterval(simulateWindowResize);
-      //     }, 1000);
-      //   });
-
-      //   $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
-      //     var $btn = $(this);
-
-      //     if (white_color == true) {
-
-      //       $('body').addClass('change-background');
-      //       setTimeout(function () {
-      //         $('body').removeClass('change-background');
-      //         $('body').removeClass('white-content');
-      //       }, 900);
-      //       white_color = false;
-      //     } else {
-
-      //       $('body').addClass('change-background');
-      //       setTimeout(function () {
-      //         $('body').removeClass('change-background');
-      //         $('body').addClass('white-content');
-      //       }, 900);
-
-      //       white_color = true;
-      //     }
-
-
-      //   });
-
-      //   $('.light-badge').click(function () {
-      //     $('body').addClass('white-content');
-      //   });
-
-      //   $('.dark-badge').click(function () {
-      //     $('body').removeClass('white-content');
-      //   });
-      // });
-    });
-  </script>
 
 </body>
 <script type="text/javascript" src="/js/fade.js"></script>
