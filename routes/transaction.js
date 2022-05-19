@@ -6,7 +6,6 @@ const { ensureAuthenticated } = require("../config/auth");
 const Telegraf = require("telegraf");
 const bot = require("../telegram");
 const Markup = Telegraf.Markup;
-//Empezamos
 
 router.get("/getTransacionInfo/:id", async (req, res) => {
   try {
@@ -88,7 +87,6 @@ router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
 });
 
 router.post("/takeFund", ensureAuthenticated, async (req, res, next) => {
-  console.log("paso");
   const { takeFund } = req.body;
   console.log(req.body);
   if (!takeFund) {
