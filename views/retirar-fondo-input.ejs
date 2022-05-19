@@ -1,17 +1,17 @@
 <div class="mb-5">
   <div class="card h-100 input-box ml-auto mr-auto card-upgrade p-4">
-    <form id="fund">
+    <form id="takeFund">
       <div class="form-group text-center">
         <h4>Retirar Balance</h4>
         <input
           type="number"
           id="takeFund"
-          name="fund"
+          name="takeFund"
           class="form-control"
           placeholder="Cantidad"
           value=""
         />
-        <small class="red fund-error"></small>
+        <small class="red fund-error-retiro"></small>
         <button
           type="submit"
           class="btn btn-default btn-block animation-on-hover"
@@ -26,7 +26,7 @@
   $(document).on("submit", "form#takeFund", function (e) {
     e.preventDefault();
     $("html").append("<div class='overlay'></div>");
-    const data = $("#fund").serialize();
+    const data = $("#takeFund").serialize();
     console.log(data);
     $.ajax({
       url: "/takeFund",
@@ -50,7 +50,8 @@
       })
       .fail((err) => {
         $(".overlay").hide();
-        $(".fund-error").html(`${err.responseText}`);
+        console.log(err);
+        $(".fund-error-retiro").html(`${err.responseText}`);
       });
   });
 </script>

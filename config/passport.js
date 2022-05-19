@@ -1,17 +1,17 @@
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
 
 // Load User model
-const User = require('../models/User');
+const User = require("../models/User");
 
-module.exports = function(passport) {
+module.exports = function (passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
       User.findOne({
-        email: email
-      }).then(user => {
+        email: email,
+      }).then((user) => {
         if (!user) {
-          return done(null, false, { message: 'Incorrect' });
+          return done(null, false, { message: "Incorrecto" });
         }
 
         // Match password
@@ -20,19 +20,19 @@ module.exports = function(passport) {
           if (isMatch) {
             return done(null, user);
           } else {
-            return done(null, false, { message: 'Incorrect' });
+            return done(null, false, { message: "Incorrecto" });
           }
         });
       });
     })
   );
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
 
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+  passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
       done(err, user);
     });
   });

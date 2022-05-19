@@ -15,8 +15,6 @@ const TransaccionesSchema = new mongoose.Schema({
   receipt: { type: String },
 });
 
-const PlanSchema = new mongoose.Schema({});
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -44,7 +42,6 @@ const UserSchema = new mongoose.Schema({
     number: { type: Number, default: "" },
     date: { type: Date, default: Date.now() },
     invested: { type: Number, required: true, default: 0 },
-    porcentaje: { type: Number, default: 0 },
   },
 
   transacciones: [TransaccionesSchema],

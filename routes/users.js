@@ -20,19 +20,19 @@ router.post("/register", async (req, res) => {
   let errors = [];
 
   if (!name || !email || !password || !password2) {
-    errors.push({ msg: "Please enter all fields" });
+    errors.push({ msg: "Por favor introduce todos los campos" });
   }
 
   if (password != password2) {
-    errors.push({ msg: "Passwords do not match" });
+    errors.push({ msg: "Contraseñas no coinciden" });
   }
 
   if (password.length < 6) {
-    errors.push({ msg: "Password must be at least 6 characters" });
+    errors.push({ msg: "Contraseña debe tener al menos 6 letras o numeros" });
   }
 
   if (password.length > 16) {
-    errors.push({ msg: "Password is too long" });
+    errors.push({ msg: "Contraseña es muy larga" });
   }
   if (errors.length > 0) {
     res.render("register", {
@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
   } else {
     User.findOne({ name: name }).then((user) => {
       if (user) {
-        errors.push({ msg: "Username Exists" });
+        errors.push({ msg: "Usuario ya existe" });
         res.render("register", {
           errors,
           name,
@@ -79,7 +79,7 @@ router.post("/register", async (req, res) => {
                 user.save().then(async () => {
                   req.flash(
                     "success_msg",
-                    "You are now registered and can log in"
+                    "Ya estas registrado, puedes ingresar"
                   );
                 });
                 res.redirect("/login");
@@ -104,7 +104,7 @@ router.post("/login", (req, res, next) => {
 // Logout
 router.get("/logout", (req, res) => {
   req.logout();
-  req.flash("success_msg", "You are logged out");
+  req.flash("success_msg", "Haz cerrado sesion");
   res.redirect("/login");
 });
 

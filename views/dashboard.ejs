@@ -101,7 +101,7 @@
                       <div class="card m-0 card-upgrade btn btn-defailt btn-block animation-on-hover card-header">
                         <h5>Balance:</h5>
                         <%if(!plan){%>
-                          <h4>0 USD</h4>
+                          <h4><%= user.invertido.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})%> USD</h4>
                           <%}else{%>
                         <h4><%= (user.plan.invested*plan.comodidad).toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2}) %> USD</h4>
                         <%}%>

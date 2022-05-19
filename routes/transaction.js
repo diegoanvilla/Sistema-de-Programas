@@ -4,60 +4,8 @@ const Plan = require("../models/Plans");
 const User = require("../models/User");
 const { ensureAuthenticated } = require("../config/auth");
 const Telegraf = require("telegraf");
-const mongoose = require("mongoose");
-const https = require("https");
-
-//BOT DE TELEGRAM CAMBIAR LUEGO A SU PROPIO ARCHIVO
-const bot = new Telegraf.Telegraf(process.env.BOT);
+const bot = require("../telegram");
 const Markup = Telegraf.Markup;
-bot.command("start", (ctx) => {
-  console.log(ctx.from);
-  bot.telegram.sendMessage(
-    ctx.chat.id,
-    "hello there! Welcome to my new telegram bot.",
-    {}
-  );
-});
-bot.action(/aprobar (.+)/, async (ctx) => {
-  const info = ctx.match[1].split(" ");
-  try {
-    await User.findOneAndUpdate(
-      { _id: new mongoose.Types.ObjectId(info[0]) },
-      {
-        $set: {
-          "transacciones.$[elemX].status": "Confirmado",
-          "transacciones.$[elemX].description": "Abonado",
-        },
-        $inc: { invertido: info[2], balance: info[2] },
-      },
-      {
-        arrayFilters: [
-          {
-            "elemX._id": new mongoose.Types.ObjectId(info[1]),
-            "elemX.status": "Procesando",
-          },
-        ],
-      }
-    ).then((user) => {
-      setUserStartingPosition(user, info[2]);
-      bot.telegram.sendMessage(process.env.TELEGRAM_ID, "Aprobado");
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
-bot.command("apagar", (ctx) => {
-  process.env.ON = 0;
-  bot.telegram.sendMessage(ctx.chat.id, "Pagina Apagada.", {});
-  console.log(process.env.ON);
-});
-bot.command("encender", (ctx) => {
-  process.env.ON = 1;
-  bot.telegram.sendMessage(ctx.chat.id, "Pagina Online", {});
-  console.log(process.env.ON);
-});
-bot.launch();
-
 //Empezamos
 
 router.get("/getTransacionInfo/:id", async (req, res) => {
@@ -87,7 +35,6 @@ router.post("/addFund", ensureAuthenticated, async (req, res, next) => {
     });
   }
 });
-
 router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
   const { ref, amount } = req.body;
   if (!match(req.user.transacciones, ref).length) {
@@ -140,35 +87,75 @@ router.post("/confirmPayment", ensureAuthenticated, async (req, res) => {
   res.status(400).end("Referencia Ya Registrada");
 });
 
-router.post("/processPayment", ensureAuthenticated, async (req, res) => {
-  const { fund } = req.body;
-  const ref = 1;
-  if (ref) {
+router.post("/takeFund", ensureAuthenticated, async (req, res, next) => {
+  console.log("paso");
+  const { takeFund } = req.body;
+  console.log(req.body);
+  if (!takeFund) {
+    res.status(400).send("El numero debe ser mayor a 0");
+  } else {
+    res.render("retirar-pagoMovil.ejs", {
+      fund: takeFund,
+    });
+  }
+});
+
+router.post("/confirmRetiro", ensureAuthenticated, async (req, res) => {
+  const { telefono, nombre, cedula, banco, amount } = req.body;
+  const ref = `${req.user.plan.length}PM`;
+  if (req.user.invertido < amount) {
+    res.status(400).send("Cantidad Insuficiente");
+  } else {
     const transaction = {
       type: "Pago Movil",
+      status: "Procesando",
+      ammount: amount * -1,
       user: req.user.name,
+      fund: amount * -1,
       ref: ref,
-      fund: fund,
-      description: `Se añadio ${fund}$ a tus fondos`,
+      description: `Efectuando Transferencia de ${amount * 5}Bs`,
     };
-    await User.updateOne(
+    const planData = getUserPlan(req.user.plan.number);
+    await User.findOneAndUpdate(
       { _id: req.user._id },
       {
-        $inc: { balance: fund, invertido: fund },
         $push: { transacciones: transaction },
+        $set: {
+          invertido: req.user.invertido - amount,
+          "plan.invested": planData
+            ? req.user.plan.invested - amount / planData.comodidad
+            : 0,
+        },
       },
-      { useUnifiedTopology: true }
+      { returnOriginal: false }
     )
-      .then(() => {
-        console.log("Transaccion Finalizada");
-        res.status(200).send();
+      .then((user) => {
+        const mensaje = `El usuario \n${req.user.name} \nCorreo ${
+          req.user.email
+        } \nHa pedido un pago movil de ${
+          amount * 5
+        } Bs\nSus datos:\nTelefono: ${telefono}\nNombre: ${nombre}\nCedula: ${cedula}\nBanco: ${banco}`;
+        let clientButton = [
+          Markup.button.callback(
+            "Confirmar",
+            `Confirmar ${req.user._id} ${
+              match(user.transacciones, ref)[0]._id
+            } ${amount}`
+          ),
+        ];
+        bot.telegram.sendMessage(
+          process.env.TELEGRAM_ID,
+          mensaje,
+          Markup.inlineKeyboard([clientButton])
+        );
+        res.sendStatus(200);
       })
       .catch((err) => {
         console.log(err);
         res
           .status(500)
           .send(
-            "Un error ha ocurrido mientras se guardaban los datos de la transaccion, comuniquese con soporte"
+            "Un error ha ocurrido mientras se guardaban los datos de la transaccion."
           );
       });
   }
@@ -176,18 +163,25 @@ router.post("/processPayment", ensureAuthenticated, async (req, res) => {
 
 router.post("/subscribetoplan/", ensureAuthenticated, async (req, res) => {
   const { invertido, _id } = req.user;
+  let balance;
   const plan = req.body.data;
   Plan.findOne({ plan: plan }).then((doc) => {
     if (req.user.plan.number == plan) {
       res.status(500).send("No puedes escoger el mismo plan");
     } else {
+      if (req.user.plan.number) {
+        const planData = getUserPlan(req.user.plan.number);
+        balance = planData.comodidad * req.user.plan.invested;
+      }
+
       User.findOneAndUpdate(
         { _id: _id },
         {
           $set: {
             "plan.name": doc.name,
             "plan.number": doc.plan,
-            "plan.invested": invertido / doc.historialDia[23],
+            "plan.invested":
+              (balance ? balance : invertido) / doc.historialDia[23],
           },
         }
       )
@@ -207,18 +201,16 @@ const match = (array, ref) =>
     return v.ref == ref;
   });
 
-const setUserStartingPosition = async (user, amount) => {
-  console.log(user, amount);
-  const plan = user.plan.number;
-  if (!plan) return;
-  let newUserInvestedBalance;
-  await Plan.findOne({ plan: plan }).then(async (doc) => {
-    newUserInvestedBalance = amount / doc.historialDia[23];
-    await User.findOneAndUpdate(
-      { _id: user._id },
-      { $inc: { "plan.invested": newUserInvestedBalance } }
-    );
-  });
+const getUserPlan = (plan) => {
+  const enviromentPlans = [
+    { planDiario: process.env.CD, comodidad: process.env.SP },
+    {
+      planDiario: process.env.MD,
+      comodidad: (parseFloat(process.env.SP) + parseFloat(process.env.BTC)) / 2,
+    },
+    { planDiario: process.env.AD, comodidad: process.env.BTC },
+  ];
+  return enviromentPlans[plan - 1];
 };
 
 module.exports = router;

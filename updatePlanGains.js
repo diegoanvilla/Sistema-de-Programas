@@ -2,13 +2,15 @@ const nodeSchedule = require("node-schedule");
 const axios = require("axios");
 const Plan = require("./models/Plans");
 const findEveryUserAndAddProfits = async () => {
-  nodeSchedule.scheduleJob("11 * * * *", async () => {
+  nodeSchedule.scheduleJob("09 * * * *", async () => {
     console.log("corriendo");
     let moderado;
     try {
-      const index = await axios.get(process.env.GET_SP);
+      const index = await axios.get(process.env.GET_NEW_SP);
       const btc = await axios.get(process.env.GET_BTC);
-      process.env.SP = parseFloat(index.data[0].price);
+      process.env.SP = parseFloat(
+        index.data.chart.result[0].meta.regularMarketPrice
+      );
       process.env.BTC = parseFloat(btc.data[0].price);
       moderado = (parseFloat(process.env.SP) + parseFloat(process.env.BTC)) / 2;
       await updatePlan(process.env.SP, "1", "CD");

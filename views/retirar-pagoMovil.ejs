@@ -1,0 +1,92 @@
+<input type="hidden" id="amount" value="<%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2}) %>" />
+<div class="popup-overlay container-fluid">
+  <div class="popup row">
+    <div class="col-12 text-center plan-box">
+      <div class="row w-100 m-0">
+        <div class="col-md-12 mx-auto text-center">
+          <p class="my-2">Retirar:</p>
+          <h1 class="mb-0">
+            <b><%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})%> USD</b>
+          </h1>
+          <p class="w-100 my-2">Vas a recibir Via Pago Movil</p>
+          <h1 class="mb-0">
+            <b><%= fund.toLocaleString('es', {useGrouping:true, minimumFractionDigits: 2,  maximumFractionDigits: 2})*5%> Bs</b>
+          </h1>
+          <p class="my-2">Por favor llena tus datos bancarios:</p>
+          <form id="pagoMovil" class="mt-2">
+            <div class="form-group  text-center">
+              <h4 class="mb-0 mt-2">Por favor coloca tu numero de telefono acá:</h4>
+              <input
+                type="number"
+                id="telefono"
+                name="telefono"
+                class="form-control w-100"
+                placeholder="Telefono"
+                value=""
+              />
+              <h4 class="mb-0 mt-2">Banco:</h4>
+              <input
+                type="text"
+                id="banco"
+                name="banco"
+                class="form-control w-100"
+                placeholder="Banco"
+                value=""
+              />
+              <h4 class="mb-0 mt-2">Cedula:</h4>
+              <input
+                type="number"
+                id="cedula"
+                name="cedula"
+                class="form-control w-100"
+                placeholder="Cedula"
+                value=""
+              />
+              <h4 class="mb-0 mt-2">Nombre:</h4>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                class="form-control w-100"
+                placeholder="Nombre"
+                value=""
+              />
+              <small class="red ref-error"></small>
+              <button
+                type="submit"
+                class="btn btn-default w-100 mt-3 btn-block animation-on-hover"
+              >
+                Retirar
+              </button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".popup").click((e) => e.stopPropagation());
+  $(document).on("submit", "form#pagoMovil", function (e) {
+    e.preventDefault();
+    $("html").append("<div class='overlay'></div>");
+    const data = $("#pagoMovil").serialize();
+    var amount = document.getElementById("amount").value;
+
+    console.log(data);
+    $.ajax({
+      url: "/confirmRetiro",
+      type: "POST",
+      data: data + '&amount=' + amount ,
+    })
+      .done((res) => {
+        $(".overlay").remove();
+        alert('Tu pago esta siendo procesado, en la ventana de movimientos te mantendremos al tanto')
+      })
+      .fail((err) => {
+        $(".overlay").hide();
+        $(".ref-error").html(`${err.responseText}`);
+      });
+  });
+</script>
